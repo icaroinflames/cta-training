@@ -35,3 +35,11 @@ services:
       HASURA_GRAPHQL_UNAUTHORIZED_ROLE: "anonymous"
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
       HASURA_GRAPHQL_DEV_MODE: "true"
+
+  api:
+    container_name: api
+    build: ./multi
+    image: node-app:0.1
+    ports:
+      - 4000:4000
+    restart: unless-stopped
