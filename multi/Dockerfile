@@ -1,9 +1,11 @@
-FROM node:gallium-alpine3.14
+FROM node:16
 
-WORKDIR /
+WORKDIR /usr/src/app
 
-COPY ./ ./
-
+#COPY ./ ./usr/src/app
+COPY package-lock.json /usr/src/app
+COPY package.json /usr/src/app
 RUN npm install
 
-CMD ["npm", "start"]
+WORKDIR /usr/src/app
+ENTRYPOINT ["npm", "start"]

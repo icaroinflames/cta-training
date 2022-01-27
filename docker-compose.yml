@@ -26,6 +26,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      api:
+        condition: service_healthy
     ports:
       - "${HASURA_PORT:-8080}:8080"
     environment:
@@ -35,11 +37,22 @@ services:
       HASURA_GRAPHQL_UNAUTHORIZED_ROLE: "anonymous"
       HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
       HASURA_GRAPHQL_DEV_MODE: "true"
+      API_BASE_URL: "http://api:4000"
+
 
   api:
-    container_name: api
-    build: ./multi
+    build: 
+      context: ./multi
     image: node-app:0.1
     ports:
       - 4000:4000
-    restart: unless-stopped
+    volumes:
+      - ./multi/src:/usr/src/app/src:delegated
+    healthcheck:
+      test: ["CMD", "wget", "-qO", "-", "http://api:4000/healthz"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    # restart: unless-stopped
+
+    
