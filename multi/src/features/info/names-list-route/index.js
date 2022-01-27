@@ -11,9 +11,9 @@ const whoAreWeRoute = async (req, reply) => {
 
     const names = res.data.data.users
         .map(user => user.name)
-        .join(', ');
+        .map(name => name.toUpperCase())
 
-    reply.send(`we are cool ${names}`);
+    reply.send(names);
 };
 
 module.exports = whoAreWeRoute;

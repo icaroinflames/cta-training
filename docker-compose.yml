@@ -48,6 +48,10 @@ services:
       - 4000:4000
     volumes:
       - ./multi/src:/usr/src/app/src:delegated
+    environment:
+      NODE_ENV: 'development'
+      FASTIFY_PORT: 4000
+      HASURA_ENDPOINT: "http://hasura:8080/v1/graphql"
     healthcheck:
       test: ["CMD", "wget", "-qO", "-", "http://api:4000/healthz"]
       interval: 5s
